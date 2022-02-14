@@ -161,3 +161,8 @@
     font-size: 1.8rem;
   }
 }
+@media screen and (max-width: 419px) and (min-height: 872px) {
+  .timer-div {
+    top: 53%;
+  }
+}
