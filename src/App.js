@@ -8,21 +8,30 @@ function App() {
   const [timerSeconds, setTimerSeconds] = useState("00");
   let interval = useRef();
   const startTimer = () => {
-    const countdownDate = new Date("Feb 15, 2022 20:00:00").getTime();
+    let end = new Date("2/15/2022 3:00 PM");
     interval = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = countdownDate - now;
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      let _second = 1000;
+      let _minute = _second * 60;
+      let _hour = _minute * 60;
+      let _day = _hour * 24;
+      let now = new Date();
+      let nowUTC = new Date(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate(),
+        now.getUTCHours(),
+        now.getUTCMinutes(),
+        now.getUTCSeconds()
       );
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      let distance = end - nowUTC;
+      var days = Math.floor(distance / _day);
+      var hours = Math.floor((distance % _day) / _hour);
+      var minutes = Math.floor((distance % _hour) / _minute);
+      var seconds = Math.floor((distance % _minute) / _second);
       if (distance < 0) {
-        // stop our timer
         clearInterval(interval.current);
+        return;
       } else {
-        // update timer
         setTimerDays(days);
         setTimerHours(hours);
         setTimerMinutes(minutes);
