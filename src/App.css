@@ -10,6 +10,10 @@
   min-height: 100vh;
   max-height: 916px;
 }
+@font-face {
+  font-family: Cunia;
+  src: url("./Assets/Cunia.otf");
+}
 .timer-div {
   position: absolute;
   top: 72%;
