@@ -1,23 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
-
+import "./App.css";
+import React, { useRef, useState, useEffect } from "react";
 function App() {
+  const [timerDays, setTimerDays] = useState("00");
+  const [timerHours, setTimerHours] = useState("00");
+  const [timerMinutes, setTimerMinutes] = useState("00");
+  const [timerSeconds, setTimerSeconds] = useState("00");
+  let interval = useRef();
+  const startTimer = () => {
+    const countdownDate = new Date("Jun 06, 2022 00:00:00").getTime();
+    interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      if (distance < 0) {
+        // stop our timer
+        clearInterval(interval.current);
+      } else {
+        // update timer
+        setTimerDays(days);
+        setTimerHours(hours);
+        setTimerMinutes(minutes);
+        setTimerSeconds(seconds);
+      }
+    });
+  };
+  useEffect(() => {
+    startTimer();
+    return () => {
+      clearInterval(interval.current);
+    };
+  });
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="timer-div">
+        <div className="time-box">
+          <h2>{timerHours}</h2>
+        </div>
+        <p>:</p>
+        <div className="time-box">
+          <h2>{timerMinutes}</h2>
+        </div>
+        <p>:</p>
+        <div className="time-box">
+          <h2>{timerSeconds}</h2>
+        </div>
+      </div>
     </div>
   );
 }
